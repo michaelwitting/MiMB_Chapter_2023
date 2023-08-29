@@ -1,5 +1,5 @@
 # ==============================================================================
-# Formula and mass utility functions
+# Retention time indexing and effective mobility transformation
 # ==============================================================================
 # load required libraries ------------------------------------------------------
 library(MetaboCoreUtils)
@@ -24,3 +24,21 @@ ref <- data.frame(rindex = c(109.7561, 855.7895),
                   refindex = c(110, 850))
 
 correctRindex(rindex, ref)
+
+# Effective mobility transformatin for CE-MS -----------------------------------
+# data frame with EOF marker
+eof <- data.frame(rtime = c(840.796),
+                  mobility = c(0))
+
+# data frame with example compounds
+metabolites <- data.frame(name = c("procaine"),
+                          rtime = c(450.239))
+
+# perform effective mobility transformation
+eff <- convertMtime(metabolites$rtime / 60,
+                    rtime = eof$rtime / 60,
+                    mobility = eof$mobility,
+                    tR = 3 / 60,
+                    U = 30,
+                    L = 800)
+eff
