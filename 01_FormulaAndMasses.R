@@ -32,7 +32,32 @@ calculateMass(chem_formula_pasted)
 calculateMass(iso_formula)
 calculateMass(iso_formula_pasted)
 
-# Kendrick mass defect
+# create data frame with lipids
+lipids <- data.frame(name = c("PC 32:0", "PC 34:0", "PC 36:0",
+                              "PC 36:1", "PC 36:2", "PS 36:1"),
+                     formula = c("C40H80NO8P", "C42H84NO8P", "C44H88NO8P",
+                                 "C44H86NO8P", "C44H84NO8P", "C42H80NO10P"))
+
+# calculate lipid masses and m/z
+lipid_mass <- calculateMass(lipids$formula)
+lipid_mz <- mass2mz(lipid_mass, adduct = "[M+H]+")
+
+# calculate Kendrick mass and and Kendrick mass defect
+lipid_km <- calculateKm(lipid_mz)
+lipid_km
+
+lipid_kmd <- calculateKmd(lipid_mz)
+lipid_kmd
+
+# calculate referenced Kendrick mass defect
+lipid_rkmd <- calculateRkmd(lipid_mz,
+                            rkmd = 0.749206)
+lipid_rkmd
+
+# check if referenced Kendrick mass defect fits to series
+isRkmd(lipid_rkmd,
+       rkmdTolerance = 0.02)
+
 
 # Working with adducts ---------------------------------------------------------
 # calculate adduct m/z
